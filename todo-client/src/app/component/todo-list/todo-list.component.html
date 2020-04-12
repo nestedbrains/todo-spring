@@ -1,0 +1,35 @@
+<h1>My todo's</h1>
+<div *ngIf="message" class="alert alert-success"> {{message}}</div>
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Sl No.</th>
+        <th>Title</th>
+        <th>Date</th>
+        <th>Description</th>
+        <th>Completed</th>
+        <th>Update</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let todo of todos">
+        <td> {{todo.id}}</td>
+        <td> {{todo.title}}</td>
+        <td> {{todo.targetedDate | date | uppercase}}</td>
+        <td> {{todo.description}}</td>
+        <td> {{todo.iscompleted}} </td>
+        <td>
+          <button (click)="updateTodo(todo.id)" class="btn btn-success">Update</button>
+        </td>
+        <td>
+          <button (click)="deleteTodo(todo.id)" class="btn btn-warning">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="row">
+    <button (click)="AddTodo()" class="btn btn-warning">Add </button>
+  </div>
+</div>

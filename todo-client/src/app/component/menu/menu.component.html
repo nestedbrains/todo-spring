@@ -1,0 +1,15 @@
+<header>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div>
+      <a routerLink="" class="navbar-brand"> Ovi's Todo</a>
+    </div>
+    <ul class="navbar-nav">
+      <li> <a *ngIf="this.authService.isLoggedIn()" routerLink="/welcome" class="nav-link">welcome</a> </li>
+      <li> <a *ngIf="this.authService.isLoggedIn()" routerLink="/todo" class="nav-link">Todo List</a> </li>
+    </ul>
+    <ul class="navbar-nav navbar-collapse justify-content-end">
+      <li> <a *ngIf="this.authService.isLoggedIn()" routerLink="/login" class="nav-link">Login</a> </li>
+      <li> <a *ngIf="this.authService.isLoggedIn()" routerLink="/logout" class="nav-link">Logout</a> </li>
+    </ul>
+  </nav>
+</header>
