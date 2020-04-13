@@ -11,6 +11,7 @@ import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { TodoListComponent } from './todo-list/todo-list.component';
 
 registerLocaleData(en);
 
@@ -18,7 +19,8 @@ registerLocaleData(en);
   declarations: [
     AppComponent,
     LoginComponent,
-    DashboardComponent
+    DashboardComponent,
+    TodoListComponent
   ],
   imports: [
     BrowserModule,

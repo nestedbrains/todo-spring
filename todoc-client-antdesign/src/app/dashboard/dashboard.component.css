@@ -18,6 +18,7 @@
 
       [nz-menu] {
         line-height: 64px;
+        nav-left: auto;
       }
 
       nz-content {
