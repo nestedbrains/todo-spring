@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpInterceptor } from '@angular/common/http';
+import { HttpInterceptor, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../auth.service';
 
 @Injectable({
@@ -7,21 +7,22 @@ import { AuthService } from '../auth.service';
 })
 export class HttpBasicInterceptorService implements HttpInterceptor {
 
-  constructor(private authService: AuthService) { }
+  constructor(private authenticationService: AuthService) { }
 
-  intercept(request: import("@angular/common/http").HttpRequest<any>, next: import("@angular/common/http").HttpHandler): import("rxjs").Observable<import("@angular/common/http").HttpEvent<any>> {
+  intercept(req: import("@angular/common/http").HttpRequest<any>, next: import("@angular/common/http").HttpHandler): import("rxjs").Observable<import("@angular/common/http").HttpEvent<any>> {
+    console.log('username', this.authenticationService.username)
+    console.log('username', this.authenticationService.password)
 
-    let userName = this.authService.getAuthUser()
-    let autheticationString = this.authService.getAuthToken()
-
-    if (userName && autheticationString) {
-      request = request.clone({
-        setHeaders: {
-          Authorization: autheticationString
-        }
-      })
+    if (this.authenticationService.isUserLoggedIn() && req.url.indexOf('basicauth') === -1) {
+      const authReq = req.clone({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': `Basic ${window.btoa(this.authenticationService.username + ":" + this.authenticationService.password)}`
+        })
+      });
+      return next.handle(authReq);
+    } else {
+      return next.handle(req);
     }
-
-    return next.handle(request)
   }
 }

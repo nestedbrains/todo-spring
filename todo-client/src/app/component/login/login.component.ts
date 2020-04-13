@@ -20,12 +20,13 @@ export class LoginComponent implements OnInit {
   }
 
   handleAuthLogin() {
-    this.authService.executeBasicAuthenticate(this.username, this.password).subscribe(
-      (date) => {
-        this.invalidLogin = false
-        this.route.navigate(['welcome'])
-      },
+    this.authService.executeBasicAuthenticate(this.username, this.password).subscribe((data) => {
+      console.log("data : ", data)
+      this.invalidLogin = false
+      this.route.navigate(['welcome'])
+    },
       (error) => {
+        console.log("**************************** error ************************")
         this.invalidLogin = true
       }
     )

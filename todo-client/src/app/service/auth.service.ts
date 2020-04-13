@@ -8,42 +8,41 @@ import { map } from 'rxjs/operators';
 })
 export class AuthService {
 
+  public username: String;
+  public password: String;
+
+  // BASE_PATH: 'http://localhost:8080'
+  USER_NAME_SESSION_ATTRIBUTE_NAME = 'authenticatedUser'
   constructor(private http: HttpClient) { }
 
-  authenticate(username, password) {
-    if (username == "ovi" && password == "dummy") {
-      sessionStorage.setItem("userName", username)
-      return true
-    }
-    else {
-      return false
-    }
+  executeBasicAuthenticate(username, password) {
+    console.log(username)
+    console.log(password)
+    return this.http.get(`http://localhost:8080/basicauth`,
+      { headers: { authorization: this.createBasicAuthToken(username, password) } }).pipe(map((res) => {
+        this.username = username;
+        this.password = password;
+        this.registerSuccessfulLogin(username, password);
+      }));
   }
 
-  executeBasicAuthenticate(userName, password) {
-    console.log(userName)
-    console.log(password)
-    let basicAuthHeaderString = 'Basic' + window.btoa(userName + ":" + password)
+  isUserLoggedIn() {
+    let user = sessionStorage.getItem(this.USER_NAME_SESSION_ATTRIBUTE_NAME)
+    if (user === null) return false
+    return true
+  }
 
-    let headers = new HttpHeaders({
-      Authorization: basicAuthHeaderString
-    })
+  createBasicAuthToken(username: String, password: String) {
+    return 'Basic ' + window.btoa(username + ":" + password)
+  }
 
-    return this.http.get(`http://localhost:8080/users`,
-      { headers }).pipe(
-        map(
-          (data) => {
-            sessionStorage.setItem("authUser", userName)
-            sessionStorage.setItem("token", basicAuthHeaderString)
-            return data
-          }
-        )
-      )
+  registerSuccessfulLogin(username, password) {
+    console.log('userName', username)
+    sessionStorage.setItem(this.USER_NAME_SESSION_ATTRIBUTE_NAME, username)
   }
 
   getAuthUser() {
-    let user = sessionStorage.getItem("authUser")
-    return !(user == null)
+    return sessionStorage.getItem(this.USER_NAME_SESSION_ATTRIBUTE_NAME)
   }
 
   getAuthToken() {
@@ -53,12 +52,11 @@ export class AuthService {
   }
 
   isLoggedIn() {
-    let user = sessionStorage.getItem("authUser")
+    let user = sessionStorage.getItem(this.USER_NAME_SESSION_ATTRIBUTE_NAME)
     return !(user == null)
   }
 
   logOut() {
-    sessionStorage.removeItem("authUser")
-    sessionStorage.removeItem("token")
+    sessionStorage.getItem(this.USER_NAME_SESSION_ATTRIBUTE_NAME)
   }
 }

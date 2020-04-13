@@ -14,6 +14,9 @@ import { FooterComponent } from './component/footer/footer.component';
 import { LogoutComponent } from './component/logout/logout.component';
 import { TodoComponent } from './component/todo/todo.component';
 import { HttpBasicInterceptorService } from './service/http/http-basic-interceptor.service';
+import { AuthService } from './service/auth.service';
+import { AuthGuardService } from './service/auth-guard.service';
+import { TodoDataService } from './service/todo-data.service';
 
 @NgModule({
   declarations: [
@@ -34,6 +37,9 @@ import { HttpBasicInterceptorService } from './service/http/http-basic-intercept
     HttpClientModule
   ],
   providers: [
+    AuthService,
+    AuthGuardService,
+    TodoDataService,
     { provide: HTTP_INTERCEPTORS, useClass: HttpBasicInterceptorService, multi: true }
   ],
   bootstrap: [AppComponent]

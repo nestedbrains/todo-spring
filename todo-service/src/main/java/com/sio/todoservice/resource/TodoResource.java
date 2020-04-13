@@ -12,12 +12,17 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
-@CrossOrigin("*")
+@CrossOrigin(origins={ "http://localhost:3000", "http://localhost:4200", "http://localhost:8081" })
 @RestController
 public class TodoResource {
 
     @Autowired
     HardCodedTodoService todoService;
+
+    @GetMapping(path = "/basicauth")
+    public String helloWorldBean() {
+        return "success";
+    }
 
     @GetMapping("/users/{userName}/todos")
     public List<Todo> getAllTodos(@PathVariable String userName) {
