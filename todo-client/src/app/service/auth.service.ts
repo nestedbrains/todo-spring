@@ -57,6 +57,6 @@ export class AuthService {
   }
 
   logOut() {
-    sessionStorage.getItem(this.USER_NAME_SESSION_ATTRIBUTE_NAME)
+    sessionStorage.removeItem(this.USER_NAME_SESSION_ATTRIBUTE_NAME)
   }
 }

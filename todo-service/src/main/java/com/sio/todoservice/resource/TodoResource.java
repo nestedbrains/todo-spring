@@ -1,5 +1,6 @@
 package com.sio.todoservice.resource;
 
+import com.sio.todoservice.config.AuthenticationBean;
 import com.sio.todoservice.model.Todo;
 import com.sio.todoservice.service.HardCodedTodoService;
 import com.sun.jndi.toolkit.url.Uri;
@@ -20,8 +21,9 @@ public class TodoResource {
     HardCodedTodoService todoService;
 
     @GetMapping(path = "/basicauth")
-    public String helloWorldBean() {
-        return "success";
+    public AuthenticationBean helloWorldBean() {
+        //throw new RuntimeException("Some Error has Happened! Contact Support at ***-***");
+        return new AuthenticationBean("You are authenticated");
     }
 
     @GetMapping("/users/{userName}/todos")
