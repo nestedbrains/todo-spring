@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { TodoService } from '../service/todo.service';
+import { Router } from '@angular/router';
+import { Todo } from '../model/Todo';
 
 @Component({
   selector: 'app-todo-list',
@@ -6,124 +9,42 @@ import { Component } from '@angular/core';
   styleUrls: ['./todo-list.component.css']
 })
 export class TodoListComponent {
-  data = [
-    {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park'
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park'
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park'
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park'
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park'
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park'
-    },
 
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park'
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park'
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park'
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park'
-    },
 
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park'
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park'
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park'
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park'
-    },
+  data: Todo[]
+  message: string
 
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park'
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park'
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park'
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park'
-    },
+  constructor(private todoService: TodoService, private router: Router) { }
 
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park'
-    }
-  ];
+  ngOnInit(): void {
+    this.refreshTodo()
+  }
+
+  refreshTodo() {
+    this.todoService.retriveAllTodos("ovi").subscribe(
+      response => {
+        console.log(response)
+        this.data = response
+      }
+    )
+  }
+
+  deleteTodo(id) {
+    this.todoService.deleteTodo("ovi", id).subscribe(
+      response => {
+        console.log(response)
+        this.message = `Todo with id : ${id} is successfully delete `
+        this.refreshTodo()
+      }
+    )
+  }
+
+  updateTodo(id) {
+    console.log(id)
+    this.router.navigate(['todo', id])
+  }
+
+  AddTodo() {
+    this.router.navigate(["todo", -1])
+  }
 }

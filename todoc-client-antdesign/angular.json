@@ -123,5 +123,8 @@
       }
     }
   },
-  "defaultProject": "todoc-client-antdesign"
+  "defaultProject": "todoc-client-antdesign",
+  "cli": {
+    "analytics": false
+  }
 }

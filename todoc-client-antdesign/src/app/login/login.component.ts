@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -10,11 +11,11 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   validateForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router) { }
+  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
-      userName: [null, [Validators.required]],
+      username: [null, [Validators.required]],
       password: [null, [Validators.required]],
       remember: [true]
     });
@@ -30,7 +31,16 @@ export class LoginComponent implements OnInit {
     }
 
     if (this.validateForm.status == "VALID") {
-      this.router.navigate(["dashboard"])
+
+      this.authService.executeBasicAuthenticate(this.validateForm.value.username, this.validateForm.value.password).subscribe(
+        (date) => {
+          this.router.navigate(["dashboard"])
+
+        },
+        (error) => {
+        }
+      )
+
 
     }
   }
